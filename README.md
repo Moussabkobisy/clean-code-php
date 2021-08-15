@@ -1,14 +1,14 @@
-# Clean Code PHP
+# Clean Code PHP - الشيفرة النظيفة
 
-## Table of Contents
+## الفهرس
 
-  1. [Introduction](#introduction)
-  2. [Variables](#variables)
-     * [Use meaningful and pronounceable variable names](#use-meaningful-and-pronounceable-variable-names)
-     * [Use the same vocabulary for the same type of variable](#use-the-same-vocabulary-for-the-same-type-of-variable)
-     * [Use searchable names (part 1)](#use-searchable-names-part-1)
-     * [Use searchable names (part 2)](#use-searchable-names-part-2)
-     * [Use explanatory variables](#use-explanatory-variables)
+  1. [مقدمة](#introduction)
+  2. [المتغيرات](#variables)
+     * [استخدم أسماء متغيرات قابلة للنطق وتعبر عن المعنى](#use-meaningful-and-pronounceable-variable-names)
+     * [استخدم نفس المفردات لنفس النوع من المتغيرات](#use-the-same-vocabulary-for-the-same-type-of-variable)
+     * [استخدم أسماءاً قابلة للبحث (جزء 1)](#use-searchable-names-part-1)
+     * [إستخدم أسماءاً قابلة للبحث (جزء2)](#use-searchable-names-part-2)
+     * [استخدم متغيرات تفسيرية](#use-explanatory-variables)
      * [Avoid nesting too deeply and return early (part 1)](#avoid-nesting-too-deeply-and-return-early-part-1)
      * [Avoid nesting too deeply and return early (part 2)](#avoid-nesting-too-deeply-and-return-early-part-2)
      * [Avoid Mental Mapping](#avoid-mental-mapping)
@@ -49,30 +49,27 @@
 
 ## Introduction
 
-Software engineering principles, from Robert C. Martin's book
-[*Clean Code*](https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882),
-adapted for PHP. This is not a style guide. It's a guide to producing
-readable, reusable, and refactorable software in PHP.
+[*Clean Code*](https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882)
 
-Not every principle herein has to be strictly followed, and even fewer will be universally
-agreed upon. These are guidelines and nothing more, but they are ones codified over many
-years of collective experience by the authors of *Clean Code*.
+من كتاب روبرت سي مارتن , مبادئ هندسة البرمجيات
+حيث تم تطبيق قواعده بلغة بي اتش بي 
+ويعتبر هذا دليل إرشادي لإنتاج برمجيات قابلة للقراءة , قابلة لإعادة الإستخدام , وإعادة التصنيع
 
-Inspired from [clean-code-javascript](https://github.com/ryanmcdermott/clean-code-javascript).
+لا يتعين عليك استخدام كل هذه القواعد بدقة , هذه مجرد إرشادات مبنية من تجميع خبرات مؤلف الكتاب
 
-Although many developers still use PHP 5, most of the examples in this article only work with PHP 7.1+.
+مستوحى من  [clean-code-javascript](https://github.com/ryanmcdermott/clean-code-javascript).
 
-## Variables
+## المتغيرات
 
-### Use meaningful and pronounceable variable names
+### استخدم أسماء متغيرات قابلة للنطق وتعبر عن المعنى
 
-**Bad:**
+**سيئ**
 
 ```php
 $ymdstr = $moment->format('y-m-d');
 ```
 
-**Good:**
+**جيد**
 
 ```php
 $currentDate = $moment->format('y-m-d');
