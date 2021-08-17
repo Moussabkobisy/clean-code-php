@@ -6,8 +6,8 @@
   2. [المتغيرات](#variables)
      * [استخدم أسماء متغيرات قابلة للنطق وتعبر عن المعنى](#use-meaningful-and-pronounceable-variable-names)
      * [استخدم نفس المفردات لنفس النوع من المتغيرات](#use-the-same-vocabulary-for-the-same-type-of-variable)
-     * [استخدم أسماءاً قابلة للبحث (جزء 1)](#use-searchable-names-part-1)
-     * [إستخدم أسماءاً قابلة للبحث (جزء2)](#use-searchable-names-part-2)
+     * [استخدم أسماء قابلة للبحث (جزء 1)](#use-searchable-names-part-1)
+     * [إستخدم أسماء قابلة للبحث (جزء2)](#use-searchable-names-part-2)
      * [استخدم متغيرات تفسيرية](#use-explanatory-variables)
      * [Avoid nesting too deeply and return early (part 1)](#avoid-nesting-too-deeply-and-return-early-part-1)
      * [Avoid nesting too deeply and return early (part 2)](#avoid-nesting-too-deeply-and-return-early-part-2)
@@ -47,7 +47,7 @@
   8. [Don’t repeat yourself (DRY)](#dont-repeat-yourself-dry)
   9. [Translations](#translations)
 
-## Introduction
+## مقدمة
 
 [*Clean Code*](https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882)
 
@@ -75,11 +75,11 @@ $ymdstr = $moment->format('y-m-d');
 $currentDate = $moment->format('y-m-d');
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ عودة إلى الأعلى](#table-of-contents)**
 
-### Use the same vocabulary for the same type of variable
+### استخدم نفس المفردات لنفس النوع من المتغيرات
 
-**Bad:**
+**سيئ**
 
 ```php
 getUserInfo();
@@ -88,7 +88,7 @@ getUserRecord();
 getUserProfile();
 ```
 
-**Good:**
+**جيد:**
 
 ```php
 getUser();
@@ -96,47 +96,44 @@ getUser();
 
 **[⬆ back to top](#table-of-contents)**
 
-### Use searchable names (part 1)
+### استخدم أسماء قابلة للبحث (جزء 1)
 
-We will read more code than we will ever write. It's important that the code we do write is
-readable and searchable. By *not* naming variables that end up being meaningful for
-understanding our program, we hurt our readers.
-Make your names searchable.
+ستقوم مستقبلاً بقراءة الأكواد أكثر بكثير مما ستكتب , لذا من الضروري أن تكتب أكواداً قابلة للقراءة والبحث , وذلك عن طريق كتابة أسماء متغيرات قابلة للقراءة والفهم وقابلة للبحث أيضاً
 
-**Bad:**
+**سيئ**
 
 ```php
-// What the heck is 448 for?
+// إلى ماذا ترمز 448 هنا ؟!
 $result = $serializer->serialize($data, 448);
 ```
 
-**Good:**
+**جيد**
 
 ```php
 $json = $serializer->serialize($data, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 ```
 
-### Use searchable names (part 2)
+### استخدم أسماء قابلة للبحث (جزء 2)
 
-**Bad:**
+**سيئ**
 
 ```php
 class User
 {
-    // What the heck is 7 for?
+    // ما اللذي يرمز إليه الرقم 7 هنا ؟؟!
     public $access = 7;
 }
 
-// What the heck is 4 for?
+// ما هذه ال4  ؟!!
 if ($user->access & 4) {
     // ...
 }
 
-// What's going on here?
+// ما اللذي يحدث هنا ؟؟؟
 $user->access ^= 2;
 ```
 
-**Good:**
+**جيد**
 
 ```php
 class User
@@ -161,11 +158,11 @@ if ($user->access & User::ACCESS_UPDATE) {
 $user->access ^= User::ACCESS_CREATE;
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ عودة إلى الأعلى](#table-of-contents)**
 
-### Use explanatory variables
+### استخدم متغيرات تفسيرية
 
-**Bad:**
+**سيئ**
 
 ```php
 $address = 'One Infinite Loop, Cupertino 95014';
@@ -175,7 +172,7 @@ preg_match($cityZipCodeRegex, $address, $matches);
 saveCityZipCode($matches[1], $matches[2]);
 ```
 
-**Not bad:**
+**متوسط**
 
 It's better, but we are still heavily dependent on regex.
 
@@ -188,7 +185,7 @@ preg_match($cityZipCodeRegex, $address, $matches);
 saveCityZipCode($city, $zipCode);
 ```
 
-**Good:**
+**جيد**
 
 Decrease dependence on regex by naming subpatterns.
 
@@ -200,14 +197,13 @@ preg_match($cityZipCodeRegex, $address, $matches);
 saveCityZipCode($matches['city'], $matches['zipCode']);
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ عودة إلى الأعلى](#table-of-contents)**
 
-### Avoid nesting too deeply and return early (part 1)
+### تجنب الأكواد المتداخلة كثيراً(1)
 
-Too many if-else statements can make your code hard to follow. Explicit is better
-than implicit.
+إن الكثير من الجمل الشرطية المتداخلة سيجعل من كودك صعب التتبع لاحقاً , التعميم أفضل من التخصيص عموماً
 
-**Bad:**
+**سيئ**
 
 ```php
 function isShopOpen($day): bool
@@ -230,7 +226,7 @@ function isShopOpen($day): bool
 }
 ```
 
-**Good:**
+**جيد**
 
 ```php
 function isShopOpen(string $day): bool
@@ -245,11 +241,11 @@ function isShopOpen(string $day): bool
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ عودة إلى الأعلى](#table-of-contents)**
 
-### Avoid nesting too deeply and return early (part 2)
+###  تجنب الأكواد المتداخلة كثيراً(2)
 
-**Bad:**
+**سيئ**
 
 ```php
 function fibonacci(int $n)
@@ -267,7 +263,7 @@ function fibonacci(int $n)
 }
 ```
 
-**Good:**
+**جيد**
 
 ```php
 function fibonacci(int $n): int
@@ -284,14 +280,13 @@ function fibonacci(int $n): int
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ عودة إلى الأعلى](#table-of-contents)**
 
-### Avoid Mental Mapping
+### تجنب الحفظ والحساب الذهني
 
-Don’t force the reader of your code to translate what the variable means.
-Explicit is better than implicit.
+لا تجعل الشخص اللذي سيقرأ الكود من بعدك مضطراً لأن يفسر معاني المتغيرات بنفسه , التصريح أفضل دائما
 
-**Bad:**
+**سيئ**
 
 ```php
 $l = ['Austin', 'New York', 'San Francisco'];
@@ -308,7 +303,7 @@ for ($i = 0; $i < count($l); $i++) {
 }
 ```
 
-**Good:**
+**جيد**
 
 ```php
 $locations = ['Austin', 'New York', 'San Francisco'];
@@ -323,14 +318,13 @@ foreach ($locations as $location) {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ عودة للأعلى](#table-of-contents)**
 
-### Don't add unneeded context
+### لا تقم بإضافة سياقات غير ضرورية
 
-If your class/object name tells you something, don't repeat that in your
-variable name.
+إذاكان اسم الكلاس/العنصر يعبر عن شيئ ما , لا تكرر ذكر هذا الشيئ في المحتويات التابعة لهذا الكلاس
 
-**Bad:**
+**سيئ**
 
 ```php
 class Car
@@ -344,8 +338,9 @@ class Car
     //...
 }
 ```
+من البديهي هنا أن  عند ذكر كلمة اللون مثلا أننا نتكلم عن لون السيارة , لذا لا داعي لذكر ذلك مرة أخرى
 
-**Good:**
+**جيد**
 
 ```php
 class Car
@@ -360,54 +355,53 @@ class Car
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ عودة للأعلى](#table-of-contents)**
 
-## Comparison
+## المقارنة 
 
-### Use [identical comparison](http://php.net/manual/en/language.operators.comparison.php)
+### استخدم  [المقارنة التامة](http://php.net/manual/en/language.operators.comparison.php)
 
-**Not good:**
+**سيئ**
 
-The simple comparison will convert the string in an integer.
+المقارنة البسيطة ستقوم ضمنياً بتحويل السلسلة الحرفية إلى عدد صحيح , هذا ما قد يؤدي إلى نتائج خاطئة أحياناً
 
 ```php
 $a = '42';
 $b = 42;
 
 if ($a != $b) {
-    // The expression will always pass
+    // المقارنة ستتحقق دائماً
 }
 ```
 
-The comparison `$a != $b` returns `FALSE` but in fact it's `TRUE`!
-The string `42` is different than the integer `42`.
+**جيد**
 
-**Good:**
-
-The identical comparison will compare type and value.
+استخدام المقارنة التامة سيتحقق من القيمة ونوع المتغير أيضاً
 
 ```php
 $a = '42';
 $b = 42;
 
 if ($a !== $b) {
-    // The expression is verified
+    // المقارنة لن تتحقق هنا
+    // نتيجة المقارنة هنا TRUE
 }
 ```
 
-The comparison `$a !== $b` returns `TRUE`.
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ عودة للأعلى](#table-of-contents)**
 
-### Null coalescing operator
+### Null coalescing operator استخدم
 
 Null coalescing is a new operator [introduced in PHP 7](https://www.php.net/manual/en/migration70.new-features.php). The null coalescing operator `??` has been added as syntactic sugar for the common case of needing to use a ternary in conjunction with `isset()`. It returns its first operand if it exists and is not `null`; otherwise it returns its second operand.
 
-**Bad:**
+وهي ميزة تمت إضافتها في بي اتش بي 7 , وهي عبارة عن دمح بين التعليمة isset وتعليمة الإسناد 
+
+**سيئ**
 
 ```php
-if (isset($_GET['name'])) {
-    $name = $_GET['name'];
+if (isset($_GET['name'])) {//التحقق من وجود القيمة
+    $name = $_GET['name'];// الإسناد
 } elseif (isset($_POST['name'])) {
     $name = $_POST['name'];
 } else {
@@ -415,20 +409,23 @@ if (isset($_GET['name'])) {
 }
 ```
 
-**Good:**
+**جيد**
 ```php
 $name = $_GET['name'] ?? $_POST['name'] ?? 'nobody';
 ```
+الكود السابق يحقق نفس النتيجة بفضل `??` بسطر واحد فقط وقابلية قراءة أعلى 
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ عودة للأعلى](#table-of-contents)**
 
-## Functions
+## Functions التوابع
 
-### Use default arguments instead of short circuiting or conditionals
+### استخدم معاملات افتراضية بدلاً من الجمل الشرطية
 
 **Not good:**
 
 This is not good because `$breweryName` can be `NULL`.
+
+هذا سيئ , لأنه من الممكن تمرير القيمة `null` إلى التابع
 
 ```php
 function createMicrobrewery($breweryName = 'Hipster Brew Co.'): void
@@ -436,10 +433,13 @@ function createMicrobrewery($breweryName = 'Hipster Brew Co.'): void
     // ...
 }
 ```
+<div dir="rtl">
 
 **Not bad:**
 
-This opinion is more understandable than the previous version, but it better controls the value of the variable.
+هنا لقد عالجنا مشكلة القيمة `null` لكن من الأفضل التحكم بنوع الباراميتر
+
+</div>
 
 ```php
 function createMicrobrewery($name = null): void
