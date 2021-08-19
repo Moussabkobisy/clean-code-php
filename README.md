@@ -282,7 +282,7 @@ function fibonacci(int $n): int
 
 **[⬆ عودة إلى الأعلى](#table-of-contents)**
 
-### تجنب الحفظ والحساب الذهني
+### تجنب الحفظ والحساب الذهني , وضح كل شيئ
 
 لا تجعل الشخص اللذي سيقرأ الكود من بعدك مضطراً لأن يفسر معاني المتغيرات بنفسه , التصريح أفضل دائما
 
@@ -302,7 +302,7 @@ for ($i = 0; $i < count($l); $i++) {
     dispatch($li);
 }
 ```
-
+في المثال السابق , من المستحيل تخمين ما اللذي يرمز إليه المتغيرات $l و $li
 **جيد**
 
 ```php
@@ -317,6 +317,7 @@ foreach ($locations as $location) {
     dispatch($location);
 }
 ```
+أسماء المتغيرات هنا واضحة ومفهومة 
 
 **[⬆ عودة للأعلى](#table-of-contents)**
 
@@ -393,8 +394,6 @@ if ($a !== $b) {
 
 ### Null coalescing operator استخدم
 
-Null coalescing is a new operator [introduced in PHP 7](https://www.php.net/manual/en/migration70.new-features.php). The null coalescing operator `??` has been added as syntactic sugar for the common case of needing to use a ternary in conjunction with `isset()`. It returns its first operand if it exists and is not `null`; otherwise it returns its second operand.
-
 وهي ميزة تمت إضافتها في بي اتش بي 7 , وهي عبارة عن دمح بين التعليمة isset وتعليمة الإسناد 
 
 **سيئ**
@@ -421,9 +420,7 @@ $name = $_GET['name'] ?? $_POST['name'] ?? 'nobody';
 
 ### استخدم معاملات افتراضية بدلاً من الجمل الشرطية
 
-**Not good:**
-
-This is not good because `$breweryName` can be `NULL`.
+**سيئ**
 
 هذا سيئ , لأنه من الممكن تمرير القيمة `null` إلى التابع
 
@@ -435,7 +432,7 @@ function createMicrobrewery($breweryName = 'Hipster Brew Co.'): void
 ```
 <div dir="rtl">
 
-**Not bad:**
+**ليس سيئاً**
 
 هنا لقد عالجنا مشكلة القيمة `null` لكن من الأفضل التحكم بنوع الباراميتر
 
@@ -449,9 +446,9 @@ function createMicrobrewery($name = null): void
 }
 ```
 
-**Good:**
+**جيد **
 
- You can use [type hinting](http://php.net/manual/en/functions.arguments.php#functions.arguments.type-declaration) and be sure that the `$breweryName` will not be `NULL`.
+الأفضل حصر نوع الباراميتر وبالتالي ستضمن أنه لن يتم تمرير `null`
 
 ```php
 function createMicrobrewery(string $breweryName = 'Hipster Brew Co.'): void
@@ -460,20 +457,26 @@ function createMicrobrewery(string $breweryName = 'Hipster Brew Co.'): void
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ عودة للأعلى ](#table-of-contents)**
 
-### Function arguments (2 or fewer ideally)
+### العدد المثالي لبارامترات التوابع هو 2 كحد أقصى
 
 Limiting the amount of function parameters is incredibly important because it makes
 testing your function easier. Having more than three leads to a combinatorial explosion
 where you have to test tons of different cases with each separate argument.
+
+إن حصر عدد باراميترات التابع أمر مهم للغاية , عدد الباراميترات القليل سيسهل عملية اختبار التابع , 3 باراميترات أو أكثر سيصعب جدا حصر كل الحالات الممكنة لتنفيذ هذا التابع
 
 Zero arguments is the ideal case. One or two arguments is ok, and three should be avoided.
 Anything more than that should be consolidated. Usually, if you have more than two
 arguments then your function is trying to do too much. In cases where it's not, most
 of the time a higher-level object will suffice as an argument.
 
-**Bad:**
+صفر , هو العدد المثالي للباراميترات (تابع بدون مداخل) , واحد أو إثنان مقبول , يجب عليك تجنب أكثر من ذلك 
+في الحقيقة إذا كان لديك ثلاث باراميترات أو أكثر فهذا يعني أن تابعك يقوم بمهام أكث مما يجب , إذا لم يكن كذلك , فغالباً يمكنك دمج عدة باراميترات بعنصر من مرحلة أعلى (مصفوفة أو عنصر object) 
+
+
+**سيئ**
 
 ```php
 class Questionnaire
@@ -492,8 +495,9 @@ class Questionnaire
     }
 }
 ```
+نلاحظ أن الباني هنا يقبل ثماني باراميترات , وهذا خاطئ ويعني أن الكلاس يقوم بمهام أكثر مما يجب , وعلينا تقسيم المهام
 
-**Good:**
+**جيد**
 
 ```php
 class Name
@@ -555,12 +559,13 @@ class Questionnaire
     }
 }
 ```
+قسمنا المهام على عدة كلاسات , وبالتالي تقليل عدد الباراميترات إلى أقل حد ممكن
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ عودة للأعلى](#table-of-contents)**
 
-### Function names should say what they do
+### اسم التابع يجب أن يصف عمله 
 
-**Bad:**
+**سيئ**
 
 ```php
 class Email
@@ -577,8 +582,9 @@ $message = new Email(...);
 // What is this? A handle for the message? Are we writing to a file now?
 $message->handle();
 ```
+ما اللذي يعنيه handle هنا ؟!
 
-**Good:**
+**جيد**
 
 ```php
 class Email
@@ -595,16 +601,17 @@ $message = new Email(...);
 // Clear and obvious
 $message->send();
 ```
+واضح وصريح 
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ عودة للأعلى](#table-of-contents)**
 
-### Functions should only be one level of abstraction
+### يجب أن يكون التابع بمستوى واحد من العمق 
 
-When you have more than one level of abstraction your function is usually
-doing too much. Splitting up functions leads to reusability and easier
-testing.
 
-**Bad:**
+عندما يتكون التابع من أكثر من مستوى واحد من العمق (حلقتين تكراريتين متداخلتين أو أكثر ) , هذا يعني أن التابع يقوم بأكثر مما يجب , ويتوجب تقسيه لجعله أسهل للإختبار , وأكثر قابلية لإعادة الإستخدام
+
+
+**سيئ**
 
 ```php
 function parseBetterPHPAlternative(string $code): void
@@ -631,10 +638,11 @@ function parseBetterPHPAlternative(string $code): void
     }
 }
 ```
+هذا التابع معقد جداً
 
-**Bad too:**
+**سيئ أيضاً**
 
-We have carried out some of the functionality, but the `parseBetterPHPAlternative()` function is still very complex and not testable.
+سنقوم  هنا بتقسيم المهام إلى ثلاث توابع منفصلة 
 
 ```php
 function tokenize(string $code): array
@@ -673,10 +681,11 @@ function parseBetterPHPAlternative(string $code): void
     }
 }
 ```
+ولكن لايزال التابع `parseBetterPHPAlternative` معقداً وغير قابل للإختبار .
 
-**Good:**
+**جيد**
 
-The best solution is move out the dependencies of `parseBetterPHPAlternative()` function.
+أفضل حل هنا هو فصل هذه التوابع وتوزيعها على ثلاث كلاسات منفصلة , لأن كل تابع يقوم بعملية مستقلة تماماً .
 
 ```php
 class Tokenizer
@@ -734,15 +743,17 @@ class BetterPHPAlternative
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ عودة للأعلى](#table-of-contents)**
 
-### Don't use flags as function parameters
+### لا تستخدم الأعلام (flags) كبارامترات للتابع 
 
 Flags tell your user that this function does more than one thing. Functions should
 do one thing. Split out your functions if they are following different code paths
 based on a boolean.
 
-**Bad:**
+يقصد هنا بالعلم أنه قيمة ما (بوليانية غالباً) تقسم تابعك إلى عدة مسارات , وهذا خاطئ , التابع يجب أن يؤدي وظيفة واحدة فقط , قم بتقسيم تابعك إلى عدة توابع,  حيث يقوم كل منهم بمهمة واحدة .
+
+**سيئ**
 
 ```php
 function createFile(string $name, bool $temp = false): void
@@ -755,7 +766,7 @@ function createFile(string $name, bool $temp = false): void
 }
 ```
 
-**Good:**
+**جيد**
 
 ```php
 function createFile(string $name): void
@@ -771,23 +782,15 @@ function createTempFile(string $name): void
 
 **[⬆ back to top](#table-of-contents)**
 
-### Avoid Side Effects
+### تجنب الآثار الجانبية 
 
-A function produces a side effect if it does anything other than take a value in and
-return another value or values. A side effect could be writing to a file, modifying
-some global variable, or accidentally wiring all your money to a stranger.
+يؤدي التابع إلى آثار جانبية إذا كان يقوم بأي مهمة خارجة عن السياق المحدد له , أي مهمة غير إدخال قيمة وإخراج قيمة أو عدة قيم , كل ما هو غير ذلك يدعى آثاراً جانبية , مثل الكتابة في ملف خارجي , التعديل على متغير عام (global variable) وغير ذلك .
 
-Now, you do need to have side effects in a program on occasion. Like the previous
-example, you might need to write to a file. What you want to do is to centralize where
-you are doing this. Don't have several functions and classes that write to a particular
-file. Have one service that does it. One and only one.
+إذا كنت بحاجة لهذه الآثار الجانبية , قد تضطر إلى الكتابة في ملف , هنا يجب عليك توحيد المكان اللذي ستكتب منه في ملف معين , وعدم إنشاء عدة كلاسات أو توابع تكتب في نفس الملف , قم بإنشاء تابع أو خدمة ما تؤدي هذا , واستخدمها لهذا الغرض 
 
-The main point is to avoid common pitfalls like sharing state between objects without
-any structure, using mutable data types that can be written to by anything, and not
-centralizing where your side effects occur. If you can do this, you will be happier
-than the vast majority of other programmers.
+النقطة الأساسية هنا هي تجنب الأخطاء الشائعة , والمتمثلة في مشاركة وتداخل المهام والحالات بين عدة توابع .
 
-**Bad:**
+**سيئ**
 
 ```php
 // Global variable referenced by following function.
@@ -796,7 +799,7 @@ $name = 'Ryan McDermott';
 
 function splitIntoFirstAndLastName(): void
 {
-    global $name;
+    global ;
 
     $name = explode(' ', $name);
 }
@@ -806,8 +809,9 @@ splitIntoFirstAndLastName();
 var_dump($name);
 // ['Ryan', 'McDermott'];
 ```
+الخطأ هنا هو  أن التابع `splitIntoFirstAndLastName` قام بما لا يخصه , وهو أنه عدل على خواص المتغير العام `$name`   وحوله من سلسلة حرفية إلى مصفوفة , هذه هي الآثار الجانبية اللتي نقصدها هنا. 
 
-**Good:**
+**جيد**
 
 ```php
 function splitIntoFirstAndLastName(string $name): array
@@ -825,9 +829,9 @@ var_dump($newName);
 // ['Ryan', 'McDermott'];
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ عودة للأعلى ](#table-of-contents)**
 
-### Don't write to global functions
+### تجنبال التعديل على التوابع العامة (global functions) وكن حذراً معها 
 
 Polluting globals is a bad practice in many languages because you could clash with another
 library and the user of your API would be none-the-wiser until they get an exception in
@@ -835,7 +839,9 @@ production. Let's think about an example: what if you wanted to have configurati
 You could write global function like `config()`, but it could clash with another library
 that tried to do the same thing.
 
-**Bad:**
+تلويث التوابع والمتغيرات العامة هو أمر سيئ في كل اللغات , وقد يؤدي إلى كثير من التداخلات  , تخيل أنك تريد إنشاء مصفوفة متغيرات عامة لتطبيقك `global values array ` وقمت بإنشاء التابع `config()` , إحتمال كبير أن يتضارب مع مكتبة تحوي تابعاً يحمل نفس الإسم .
+
+**سيئ**
 
 ```php
 function config(): array
@@ -846,7 +852,7 @@ function config(): array
 }
 ```
 
-**Good:**
+**جيد**
 
 ```php
 class Configuration
@@ -866,17 +872,15 @@ class Configuration
 }
 ```
 
-Load configuration and create instance of `Configuration` class
-
 ```php
 $configuration = new Configuration([
     'foo' => 'bar',
 ]);
 ```
 
-And now you must use instance of `Configuration` in your application.
+هنا ستكون مضطراً لذكر الكلاس `Configuration` عندما تحتاج لإستخدام المصفوفة .
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ عودة للأعلى ](#table-of-contents)**
 
 ### Don't use a Singleton pattern
 
